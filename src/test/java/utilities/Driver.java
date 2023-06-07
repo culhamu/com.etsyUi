@@ -4,113 +4,98 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class Driver {
     private Driver(){
 
     }
 
-    static WebDriver driver;
+    private static InheritableThreadLocal<WebDriver> driverPool = new InheritableThreadLocal<>();
 
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
 
+        if (driverPool.get() == null) {
 
-        String browser= ConfigReader.getProperty("browser");
-        ChromeOptions ops = new ChromeOptions();
-        if(driver==null) {
+            String browserType = ConfigReader.getProperty("browser");
 
-            switch (browser) {
+            switch (browserType) {
+                case "chrome" -> {
 
-                case "chrome": //güncelleme sorunu sonrası ekleme
+                    //options.addArguments("--remote-allow-origins=*");
+                    //Headless modu devre dışı
+                    //options.setHeadless(false);
 
-                    WebDriverManager.chromedriver().setup();
-                    ops.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(ops);
-                    break;
+                    //options.setExperimentalOption("useAutomationExtension", false);
 
-                case "firefox":
-                    WebDriverManager.firefoxdriver().setup();
-                    driver=new FirefoxDriver();
-                    break;
+                    //Devtools
+                    //options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+                    //options.setExperimentalOption("useAutomationExtension", false);
 
-                case "safari" :
-                    WebDriverManager.safaridriver().setup();
-                    driver= new SafariDriver();
-                    break;
+                    //options.addArguments("--disable-save-password-bubble");
 
-                default:
-                    WebDriverManager.chromedriver().setup();
-                    ops.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(ops);
+                    //options.addArguments("--disable-autofill-keyboard-accessory-view");
+                    //options.addArguments("--disable-password-manager-reauthentication");
 
+                    //options.addArguments("--disable-infobars");
+
+                    //options.addArguments("--incognito");
+
+                    //options.addArguments("enable-automation");
+
+                    //User-Agent
+                    //options.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36");
+
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--disable-blink-features=AutomationControlled");
+                    options.addArguments("--disable-notifications");
+                    driverPool.set(new ChromeDriver(options));
+
+                }
+                case "firefox" -> driverPool.set(new FirefoxDriver());
+                case "edge" -> driverPool.set(new EdgeDriver());
             }
-
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driverPool.get().manage().window().maximize();
+            driverPool.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
 
-        return driver;
+        return driverPool.get();
 
     }
 
-    public static WebDriver getDriver(String browser){
+    public static WebDriver getDriver(String browser) {
 
-        ChromeOptions ops = new ChromeOptions();
-        if(driver==null) {
+        if (driverPool.get() == null) {
 
             switch (browser) {
-
-                case "chrome": //güncelleme sorunu sonrası ekleme
-
-                    WebDriverManager.chromedriver().setup();
-                    ops.addArguments("--remote-allow-origins=*");
-                    ops.addArguments("--disable-blink-features=AutomationControlled");
-                    ops.addArguments("--disable-notifications");
-                    driver = new ChromeDriver(ops);
-                    break;
-
-                case "firefox":
-                    WebDriverManager.firefoxdriver().setup();
-                    driver=new FirefoxDriver();
-                    break;
-
-                case "safari" :
-                    WebDriverManager.safaridriver().setup();
-                    driver= new SafariDriver();
-                    break;
-
-                default:
-                    WebDriverManager.chromedriver().setup();
-                    ops.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(ops);
-
+                case "chrome" -> driverPool.set(new ChromeDriver());
+                case "firefox" -> driverPool.set(new FirefoxDriver());
+                case "edge" -> driverPool.set(new EdgeDriver());
             }
-
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driverPool.get().manage().window().maximize();
+            driverPool.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
-
-        return driver;
-
+        return driverPool.get();
     }
+
 
     public static void closeDriver(){
 
-        if (driver != null){
-            driver.close();
-            driver=null;
+        if (driverPool.get() != null){
+            driverPool.get().close();
+            driverPool.remove();
         }
-
     }
-
     public static void quitDriver(){
-        if (driver != null){
-            driver.quit();
-            driver=null;
+
+        if (driverPool.get() != null) {
+            driverPool.get().quit();
+            driverPool.remove();
         }
     }
 }
