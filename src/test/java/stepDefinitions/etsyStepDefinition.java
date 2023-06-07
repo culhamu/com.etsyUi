@@ -37,4 +37,14 @@ public class etsyStepDefinition {
     public void sepeteUrunEkler() {
         etsyPage.addToCart();
     }
+
+    @Then("Odeme islemlerini yapar")
+    public void odemeIslemleriniYapar() {
+        etsyPage.makePayment();
+    }
+
+    @And("Kart bilgilerini girer")
+    public void kartBilgileriniGirer() {
+        etsyPage.writeCardInformation();
+    }
 }

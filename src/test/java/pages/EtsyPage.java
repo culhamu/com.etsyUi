@@ -36,37 +36,42 @@ public class EtsyPage extends Base{
     @FindBy(xpath = "//select[@id='variation-selector-0']")
     public WebElement selectOption;
 
-    @FindBy(xpath = "//*[@id=\"variation-selector-1\"]/option[1]")
+    @FindBy(xpath = "//select[@id='variation-selector-1']")
     public WebElement selectOption2;
 
-    @FindBy(xpath = "//*[@id=\"listing-page-cart\"]/div[6]/div[1]/div[3]/div[2]/form/div/button")
+    @FindBy(xpath = "(//button[@class='wt-btn wt-btn--filled wt-width-full'])[1]")
     public WebElement addToCart;
 
-    @FindBy(xpath = "//*[@id=\"listing-page-personalization-textarea\"]")
+    @FindBy(xpath = "(//*[@class='wt-textarea wt-textarea'])[1]")
     public WebElement exampleBox;
 
-    @FindBy(xpath = "//*[@id=\"atc-overlay-content\"]/div[2]/div/a/text()")
+    @FindBy(xpath = "(//*[@class='wt-btn wt-width-full wt-btn--primary'])[1]")
     public WebElement viewCartCheckout;
 
-    @FindBy(xpath = "//*[@id=\"4b4c4c2_multiple_payment_method_credit_card\"]")
+  @FindBy(xpath = "(//button[@type='button'])[3]")
+  public WebElement editButton;
+    @FindBy(xpath = "(//input[@id='401c7c1_multiple_payment_method_credit_card'])[1]")
     public WebElement visaPayment;
 
-    @FindBy(xpath = "//*[@id=\"multi-shop-cart-list\"]/div[1]/div/div[1]/div/div/div/form/div[2]/div[1]/button/span")
+    @FindBy(xpath = "(//span[@class='submit-button-text'])[1]")
     public WebElement proceedCheckout;
 
-    @FindBy(xpath = "//*[@id=\"country_id2-select\"]")
+    @FindBy(xpath = "//select[@id='country_id27-select']")
     public WebElement selectCountry;
 
-    @FindBy(xpath = "//*[@id=\"name52-input\"]")
-    public WebElement fullnameBox;
+    @FindBy(xpath = "(//button[@class='select_btn wt-btn wt-btn--filled wt-width-full'])[1]")
+    public WebElement shipHereButton;
 
-    @FindBy(xpath = "//*[@id=\"state48-select\"]")
+    @FindBy(xpath = "//select[@id='state33-select']")
     public WebElement selectProvince;
+
+  @FindBy(xpath = "//button[@class='wt-btn wt-btn--filled address-save-clicked confirm-btn']")
+  public WebElement saveButton;
 
     @FindBy(xpath = "//*[@id=\"shipping-address-form\"]/div[2]/button/span[1]")
     public WebElement continuePayment;
 
-    @FindBy(xpath = "//*[@id=\"content\"]/div[1]/div[3]/div/div/div[2]/div[1]/div[1]/label")
+    @FindBy(xpath = "//input[@id='cc-radio--paymentstep']")
     public WebElement cardRadioButton;
 
     @FindBy(xpath = "//*[@id=\"cc-name--paymentstep\"]")
@@ -120,6 +125,60 @@ public class EtsyPage extends Base{
         ReusableMethods.bekle(2);
         addToCart.click();
         ReusableMethods.bekle(2);
+        actions.click(viewCartCheckout).pause(Duration.ofMillis(500)).build().perform();
     }
 
+  public void makePayment() {
+
+      proceedCheckout.click();
+      ReusableMethods.bekle(2);
+      editButton.click();
+      ReusableMethods.bekle(2);
+      actions.sendKeys(Keys.TAB,Keys.ENTER)
+              .sendKeys(Keys.TAB).pause(Duration.ofMillis(500))
+              .sendKeys("Mustafa Culha")
+              .sendKeys(Keys.TAB)
+              .sendKeys("Merter").pause(Duration.ofMillis(500))
+              .sendKeys(Keys.TAB)
+              .sendKeys("Gedikli").pause(Duration.ofMillis(500))
+              .sendKeys(Keys.TAB)
+              .sendKeys("34810").pause(Duration.ofMillis(500))
+              .sendKeys(Keys.TAB)
+              .sendKeys("Bahcelievler").pause(Duration.ofMillis(500))
+              .sendKeys(Keys.TAB)
+              .click()
+              .build().perform();
+
+      saveButton.click();
+      ReusableMethods.bekle(2);
+
+  }
+
+    public void writeCardInformation() {
+
+        shipHereButton.click();
+        ReusableMethods.bekle(3);
+        actions.click(cardRadioButton).build().perform();
+        ReusableMethods.bekle(1);
+        actions.sendKeys(Keys.TAB).pause(Duration.ofMillis(500))
+                .sendKeys("Mustafa Culha").pause(Duration.ofMillis(500))
+                .sendKeys(Keys.TAB).pause(Duration.ofMillis(500))
+                .sendKeys("4242424242424242").pause(Duration.ofMillis(500))
+                .sendKeys(Keys.TAB,Keys.ENTER).pause(Duration.ofMillis(500))
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ENTER).pause(Duration.ofMillis(500))
+                .sendKeys(Keys.TAB,Keys.ENTER).pause(Duration.ofMillis(500))
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ENTER).pause(Duration.ofMillis(500))
+                .sendKeys(Keys.TAB).pause(Duration.ofMillis(500)).build().perform();
+
+        actions.click(secureCode).build().perform();
+        secureCode.sendKeys("854");
+        reviewYourOrderButton.click();
+
+    }
 }
