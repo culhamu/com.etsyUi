@@ -288,7 +288,16 @@ public class ReusableMethods {
         return false;
     }
 
+    public static void switchToWindowHandle(Set<String> handles) {
+        String handle = "";
+        for (String each : handles) {
+            if (!each.equals(handle)) {
+                handle = each;
+            }
+        }
+        Driver.getDriver().switchTo().window(handle);
 
+    }
 
 
 

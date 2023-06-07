@@ -68,6 +68,8 @@ public class Driver {
 
                     WebDriverManager.chromedriver().setup();
                     ops.addArguments("--remote-allow-origins=*");
+                    ops.addArguments("--disable-blink-features=AutomationControlled");
+                    ops.addArguments("--disable-notifications");
                     driver = new ChromeDriver(ops);
                     break;
 

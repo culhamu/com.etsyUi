@@ -13,3 +13,5 @@ Feature: Etsy websitesi Ui test
   Scenario: Login olma
 
     Given Kullanici "etsyUrl" anasayfasina giris yapar
+    Then Kullanici login islemini tamamlar
+    And Sepete urun ekler
