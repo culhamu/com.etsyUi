@@ -112,6 +112,7 @@ public class EtsyPage extends Base{
         actions.click(crossButton).pause(Duration.ofMillis(1000)).build().perform();
 
         actions.sendKeys(Keys.PAGE_DOWN).pause(Duration.ofMillis(500)).build().perform();
+        if (Driver.getDriver().getWindowHandle().contains("Select an option")){
       Select select=new Select(selectOption);
       select.selectByIndex(1);
       ReusableMethods.bekle(2);
@@ -125,7 +126,13 @@ public class EtsyPage extends Base{
         ReusableMethods.bekle(2);
         addToCart.click();
         ReusableMethods.bekle(2);
-        actions.click(viewCartCheckout).pause(Duration.ofMillis(500)).build().perform();
+        actions.click(viewCartCheckout).pause(Duration.ofMillis(500)).build().perform();}
+        else {
+            ReusableMethods.bekle(2);
+            addToCart.click();
+            ReusableMethods.bekle(2);
+            actions.click(viewCartCheckout).pause(Duration.ofMillis(500)).build().perform();
+        }
     }
 
   public void makePayment() {

@@ -25,20 +25,12 @@ public class etsyStepDefinition {
     @Given("Kullanici etsy anasayfasinin farkli {string} ile acilabildigini dogrular")
     public void kullaniciEtsyAnasayfasininFarkliIleAcilabildiginiDogrular(String browser) {
 
+        Driver.getDriver(browser).get(ConfigReader.getProperty("etsyUrl"));
 
-
-        if (browser.equals("chrome")){
-            driver=new ChromeDriver();
-
-        } else {
-            driver=new EdgeDriver();
-        }
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-
-        driver.get("https://www.etsy.com/");
-
-        driver.close();
+        String expectedUrl=ConfigReader.getProperty("etsyUrl");
+        String actualUrl=Driver.getDriver().getCurrentUrl();
+        Assert.assertEquals(actualUrl,expectedUrl);
+        Driver.closeDriver();
     }
 
     @Then("Kullanici login islemini tamamlar")
