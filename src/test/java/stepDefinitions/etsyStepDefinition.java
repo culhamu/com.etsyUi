@@ -6,12 +6,14 @@ import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import pages.EtsyPage;
 import utilities.ConfigReader;
 import utilities.Driver;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class etsyStepDefinition {
 
@@ -25,12 +27,21 @@ public class etsyStepDefinition {
     @Given("Kullanici etsy anasayfasinin farkli {string} ile acilabildigini dogrular")
     public void kullaniciEtsyAnasayfasininFarkliIleAcilabildiginiDogrular(String browser) {
 
-        Driver.getDriver(browser).get(ConfigReader.getProperty("etsyUrl"));
+        if (browser.equals("chrome")){
+            driver=new ChromeDriver();
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        }else {
+            driver=new EdgeDriver();
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        }
 
-        String expectedUrl=ConfigReader.getProperty("etsyUrl");
-        String actualUrl=Driver.getDriver().getCurrentUrl();
+        driver.get(ConfigReader.getProperty("etsyUrl"));
+        String expectedUrl="https://www.etsy.com/";
+        String actualUrl=driver.getCurrentUrl();
         Assert.assertEquals(actualUrl,expectedUrl);
-        Driver.closeDriver();
+        driver.close();
     }
 
     @Then("Kullanici login islemini tamamlar")

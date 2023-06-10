@@ -1,8 +1,8 @@
 
-@etsy
+
 Feature: Etsy websitesi Ui test
 
-
+  @etsy
   Scenario Outline: CrossBrowser test
 
     Given Kullanici etsy anasayfasinin farkli "<browser>" ile acilabildigini dogrular
