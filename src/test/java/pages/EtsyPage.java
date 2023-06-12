@@ -31,6 +31,8 @@ public class EtsyPage extends Base{
     @FindBy(xpath = "(//div[@class='height-placeholder'])[1]")
     public WebElement firstProduct;
 
+    @FindBy(xpath = "//button[@class='wt-btn wt-btn--primary wt-width-full']")
+    public WebElement continueButton;
     @FindBy(xpath = "//select[@id='variation-selector-0']")
     public WebElement selectOption;
 
@@ -48,8 +50,8 @@ public class EtsyPage extends Base{
 
     @FindBy(xpath = "(//button[@type='button'])[3]")
     public WebElement editButton;
-    @FindBy(xpath = "(//input[@id='401c7c1_multiple_payment_method_credit_card'])[1]")
-    public WebElement visaPayment;
+    @FindBy(xpath = "//button[@class='wt-btn wt-btn--transparent wt-btn--icon']")
+    public WebElement productCrossButton;
 
     @FindBy(xpath = "(//span[@class='submit-button-text'])[1]")
     public WebElement proceedCheckout;
@@ -96,13 +98,15 @@ public class EtsyPage extends Base{
     public void login(){
         signinHomePageButton.click();
         emailBox.click();
-        emailBox.sendKeys(ConfigReader.getProperty("etsyEmail"));
+        emailBox.sendKeys(ConfigReader.getProperty("etsyEmail2"));
         passwordBox.click();
-        passwordBox.sendKeys(ConfigReader.getProperty("etsySifre"));
-        ReusableMethods.bekle(2);
-        actions.click(signinButton).pause(Duration.ofMillis(500)).build().perform();
+        passwordBox.sendKeys(ConfigReader.getProperty("etsySifre2"));
+        ReusableMethods.bekle(1);
+        actions.click(signinButton).pause(Duration.ofMillis(3000)).build().perform();
+        ReusableMethods.bekle(10);
     }
     public void addToCart(){
+        actions.click(productCrossButton).build().perform();
         actions.click(firstProduct).pause(Duration.ofMillis(1000)).build().perform();
         actions.click(firstProduct).pause(Duration.ofMillis(1000)).build().perform();
         Set<String> handle= Driver.getDriver().getWindowHandles();

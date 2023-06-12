@@ -19,18 +19,9 @@ public class etsyStepDefinition {
     EtsyPage etsyPage=new EtsyPage();
 
 
-    @And("Kart bilgilerini girer")
-    public void kartBilgileriniGirer() {
-
-    }
-
     @Given("User checks etsy homepage can be opened with different {string}")
-    public void userChecksEtsyHomepageCanBeOpenedWithDifferent(String url) {
-        Driver.getDriver().get(ConfigReader.getProperty(url));
-    }
+    public void userChecksEtsyHomepageCanBeOpenedWithDifferent(String browser) {
 
-    @Given("User logs into {string} homepage")
-    public void userLogsIntoHomepage(String browser) {
         if (browser.equals("chrome")){
             driver=new ChromeDriver();
             driver.manage().window().maximize();
@@ -46,6 +37,11 @@ public class etsyStepDefinition {
         String actualUrl=driver.getCurrentUrl();
         Assert.assertEquals(actualUrl,expectedUrl);
         driver.close();
+    }
+
+    @Given("User logs into {string} homepage")
+    public void userLogsIntoHomepage(String url) {
+        Driver.getDriver().get(ConfigReader.getProperty(url));
     }
 
     @Then("User completes the login process")
