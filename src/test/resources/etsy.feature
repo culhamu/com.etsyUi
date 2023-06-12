@@ -1,20 +1,21 @@
 
+@etsy
+Feature: Etsy website Ui test
 
-Feature: Etsy websitesi Ui test
 
-  @etsy
   Scenario Outline: CrossBrowser test
 
-    Given Kullanici etsy anasayfasinin farkli "<browser>" ile acilabildigini dogrular
+    Given User checks etsy homepage can be opened with different "<browser>"
     Examples:
       | browser |
       | edge    |
       | chrome  |
 
-  Scenario: Login olma
+  Scenario: Login test
 
-    Given Kullanici "etsyUrl" anasayfasina giris yapar
-    Then Kullanici login islemini tamamlar
-    And Sepete urun ekler
-    Then Odeme islemlerini yapar
-    And Kart bilgilerini girer
+    Given User logs into "etsyUrl" homepage
+    Then User completes the login process
+    And User adds the product to the shopping cart
+    Then User makes payment transactions
+    And User enters Card information
+    Then User closes the browser

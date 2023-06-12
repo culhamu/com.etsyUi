@@ -8,9 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.ReusableMethods;
-
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Set;
 
 public class EtsyPage extends Base{
@@ -18,7 +16,7 @@ public class EtsyPage extends Base{
     Actions actions=new Actions(Driver.getDriver());
     ReusableMethods reusableMethods=new ReusableMethods();
 
-  @FindBy(xpath = "//button[@class='wt-btn wt-btn--small wt-btn--transparent wt-mr-xs-1 inline-overlay-trigger signin-header-action select-signin']")
+    @FindBy(xpath = "//button[@class='wt-btn wt-btn--small wt-btn--transparent wt-mr-xs-1 inline-overlay-trigger signin-header-action select-signin']")
     public WebElement signinHomePageButton;
 
     @FindBy(xpath = "//input[@id='join_neu_email_field']")
@@ -48,8 +46,8 @@ public class EtsyPage extends Base{
     @FindBy(xpath = "(//*[@class='wt-btn wt-width-full wt-btn--primary'])[1]")
     public WebElement viewCartCheckout;
 
-  @FindBy(xpath = "(//button[@type='button'])[3]")
-  public WebElement editButton;
+    @FindBy(xpath = "(//button[@type='button'])[3]")
+    public WebElement editButton;
     @FindBy(xpath = "(//input[@id='401c7c1_multiple_payment_method_credit_card'])[1]")
     public WebElement visaPayment;
 
@@ -65,8 +63,8 @@ public class EtsyPage extends Base{
     @FindBy(xpath = "//select[@id='state33-select']")
     public WebElement selectProvince;
 
-  @FindBy(xpath = "//button[@class='wt-btn wt-btn--filled address-save-clicked confirm-btn']")
-  public WebElement saveButton;
+    @FindBy(xpath = "//button[@class='wt-btn wt-btn--filled address-save-clicked confirm-btn']")
+    public WebElement saveButton;
 
     @FindBy(xpath = "//*[@id=\"shipping-address-form\"]/div[2]/button/span[1]")
     public WebElement continuePayment;

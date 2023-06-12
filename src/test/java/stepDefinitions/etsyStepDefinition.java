@@ -6,27 +6,31 @@ import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import pages.EtsyPage;
 import utilities.ConfigReader;
 import utilities.Driver;
-
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+
 
 public class etsyStepDefinition {
 
     WebDriver driver;
     EtsyPage etsyPage=new EtsyPage();
-    @Given("Kullanici {string} anasayfasina giris yapar")
-    public void kullanici_anasayfasina_giris_yapar(String url) {
+
+
+    @And("Kart bilgilerini girer")
+    public void kartBilgileriniGirer() {
+
+    }
+
+    @Given("User checks etsy homepage can be opened with different {string}")
+    public void userChecksEtsyHomepageCanBeOpenedWithDifferent(String url) {
         Driver.getDriver().get(ConfigReader.getProperty(url));
     }
 
-    @Given("Kullanici etsy anasayfasinin farkli {string} ile acilabildigini dogrular")
-    public void kullaniciEtsyAnasayfasininFarkliIleAcilabildiginiDogrular(String browser) {
-
+    @Given("User logs into {string} homepage")
+    public void userLogsIntoHomepage(String browser) {
         if (browser.equals("chrome")){
             driver=new ChromeDriver();
             driver.manage().window().maximize();
@@ -44,23 +48,28 @@ public class etsyStepDefinition {
         driver.close();
     }
 
-    @Then("Kullanici login islemini tamamlar")
-    public void kullaniciLoginIsleminiTamamlar() {
+    @Then("User completes the login process")
+    public void userCompletesTheLoginProcess() {
         etsyPage.login();
     }
 
-    @And("Sepete urun ekler")
-    public void sepeteUrunEkler() {
+    @And("User adds the product to the shopping cart")
+    public void userAddsTheProductToTheShoppingCart() {
         etsyPage.addToCart();
     }
 
-    @Then("Odeme islemlerini yapar")
-    public void odemeIslemleriniYapar() {
+    @Then("User makes payment transactions")
+    public void userMakesPaymentTransactions() {
         etsyPage.makePayment();
     }
 
-    @And("Kart bilgilerini girer")
-    public void kartBilgileriniGirer() {
+    @And("User enters Card information")
+    public void userEntersCardInformation() {
         etsyPage.writeCardInformation();
+    }
+
+    @Then("User closes the browser")
+    public void userClosesTheBrowser() {
+        Driver.quitDriver();
     }
 }
